@@ -1,5 +1,7 @@
 /*
  *  Mux 16 way bus
+ *
+ *  Note that this bus controlled by a single bit selector rather than each multiplexor being switched independently
  */
 CHIP Mux16 {
     IN a[16], b[16], sel;
