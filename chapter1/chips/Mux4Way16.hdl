@@ -1,12 +1,26 @@
 /*
  *  4 way 16 bit (bus) multiplexor requiring 2 control inputs 
+ *
+ *  sel[1]  sel[0]  |  out
+ *  0       0       |  a
+ *  0       1       |  b
+ *  1       0       |  c
+ *  1       1       |  d
+ *
+ *  In this case the diagram above is probably the simplest way to understand
+ *  how this actually works. Good old column -t.
  */
 CHIP Mux4Way16 {
     IN a[16], b[16], c[16], d[16], sel[2];
     OUT out[16];
     PARTS:
+        // first we choose based on the first bit of information between either
+        // a and b or c and d.
         Mux16(a=a, b=b, sel=sel[0], out=AorBSelected);
         Mux16(a=c, b=d, sel=sel[0], out=CorDSelected);
 
+        // the second bit of information (in sel) tells us whether or not we want
+        // the winner from the first comparison or the winner from the second
+        // comparison
         Mux16(a=AorBSelected, b=CorDSelected, sel=sel[1], out=out);
 }
