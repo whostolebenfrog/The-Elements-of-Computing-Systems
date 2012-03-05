@@ -1,0 +1,25 @@
+/*
+ * 8 way 16 bit multiplexor
+ *
+ *  sel[2]  sel[1]  sel[0]  ||  out
+ *  0       0       0       ||  a
+ *  0       0       1       ||  b
+ *  0       1       0       ||  c
+ *  0       1       1       ||  d
+ *  1       0       0       ||  e
+ *  1       0       1       ||  f
+ *  1       1       0       ||  g
+ *  1       1       1       ||  h
+ */
+CHIP Mux8Way16 {
+    IN a[16], b[16], c[16], d[16], e[16], f[16], g[16], h[16], sel[3];
+    OUT out[16];
+    PARTS:
+        Mux16(a=a, b=b, sel=sel[0], out=AorBSelected);
+        Mux16(a=c, b=d, sel=sel[0], out=CorDSelected);
+        Mux16(a=e, b=f, sel=sel[0], out=EorFSelected);
+        Mux16(a=g, b=h, sel=sel[0], out=GorHSelected);
+        Mux16(a=AorBSelected, b=CorDSelected, sel=sel[1], out=ABorCDSelected);
+        Mux16(a=EorFSelected, b=GorHSelected, sel=sel[1], out=EForGHSelected);
+        Mux16(a=ABorCDSelected, b=EForGHSelected, sel=sel[2], out=out);
+}
