@@ -1,6 +1,14 @@
 /*
-    Demultiplexor
-*/
+ *   Demultiplexor
+ *
+ *   in -------------------\-----------\
+ *                          And---b     \
+ *   sel --X---------------/             And---a
+ *         |                            /
+ *         -Not--(notSel)--------------/
+ *
+ *
+ */
 CHIP DMux {
     IN in, sel;
     OUT a, b;
