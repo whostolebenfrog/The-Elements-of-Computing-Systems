@@ -1,0 +1,25 @@
+/*
+ *   8 way Demultiplexor
+ *
+ *   sel[2]  sel[1]  sel[0]  ||  a   b   c   d   e   f   g   h
+ *   0       0       0       ||  in  0   0   0   0   0   0   0
+ *   0       0       1       ||  0   in  0   0   0   0   0   0
+ *   0       1       0       ||  0   0   in  0   0   0   0   0
+ *   0       1       1       ||  0   0   0   in  0   0   0   0
+ *   1       0       0       ||  0   0   0   0   in  0   0   0
+ *   1       0       1       ||  0   0   0   0   0   in  0   0
+ *   1       1       0       ||  0   0   0   0   0   0   in  0
+ *   1       1       1       ||  0   0   0   0   0   0   0   in
+ */
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+    PARTS:
+        DMux(in=in,       sel=sel[0],  a=split0,   b=split1);
+        DMux(in=split0,   sel=sel[1],  a=split00,  b=split01);
+        DMux(in=split1,   sel=sel[1],  a=split10,  b=split11);
+        DMux(in=split00,  sel=sel[2],  a=a,        b=e);
+        DMux(in=split01,  sel=sel[2],  a=c,        b=g);
+        DMux(in=split10,  sel=sel[2],  a=b,        b=f);
+        DMux(in=split11,  sel=sel[2],  a=d,        b=h);
+}
