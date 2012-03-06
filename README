@@ -9,13 +9,10 @@ http://www1.idc.ac.il/tecs/software.html
 
 ********************************************************************************
 
-Chapter 1:
+Project1:
 
 Creating basic components of circuits in a hardware definition language.
 
-These can be found in the chips folder. Contained are the .hdl files that
-define the components, .tst files from the book's resources, .cmp files that
-form part of the tests and .out files which show the results of running these
-tests against the components. The .hdl files are my attempts at solutions.
+The .hdl files in the project folder represent my solutions to project1
 
 ********************************************************************************
