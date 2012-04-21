@@ -1,0 +1,16 @@
+/*
+ * Chip that conditionally (depending on a supplied control flag)
+ * negates the supplied 16 bit input bus
+ */
+CHIP ConditionalNegate16 {
+    IN
+        in[16],
+        sel;
+    OUT
+        out[16];
+
+    PARTS:
+        Not16(in=in,  out=negated);
+        Mux16(a=in,   b=negated,     sel=sel,  out=out);
+
+}

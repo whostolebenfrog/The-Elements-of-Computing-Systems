@@ -1,0 +1,19 @@
+/*
+ * 16 way Or that has a control pin that flips the output
+ * if true
+ */
+CHIP NegatableOr16Way {
+    IN
+        in[16],
+        sel;
+    OUT
+        out;
+
+    PARTS:
+        Or8Way(in=in[0..7], out=orPart1);
+        Or8Way(in=in[8..15], out=orPart2);
+        Or(a=orPart1, b=orPart2, out=result);
+        
+        // flip the result if required
+        Xor(a=result, b=sel, out=out);
+}

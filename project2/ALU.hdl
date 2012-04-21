@@ -1,8 +1,3 @@
-// This file is part of the materials accompanying the book 
-// "The Elements of Computing Systems" by Nisan and Schocken, 
-// MIT Press. Book site: www.idc.ac.il/tecs
-// File name: projects/02/ALU.hdl
-
 /**
  * The ALU. Computes one of the following functions:
  * x+y, x-y, y–x, 0, 1, -1, x, y, -x, -y, !x, !y,
@@ -45,5 +40,32 @@ CHIP ALU {
         ng; // 1 if (out<0),  0 otherwise
 
     PARTS:
-    // Put your code here.
+        // perform the initial input bus filtering based on
+        // the 1st 4 flags
+        Mux16(a=x, b=false, sel=zx, out=xPass1);
+        Mux16(a=y, b=false, sel=zy, out=yPass1);
+
+        ConditionalNegate16(in=xPass1, sel=nx, out=xPass2);
+        ConditionalNegate16(in=yPass1, sel=ny, out=yPass2);
+
+        // Add / and the two busses
+        And16(a=xPass2, b=yPass2, out=addResult);
+        Add16(a=xPass2, b=yPass2, out=andResult);
+
+        // Choose which of these two results we want
+        Mux16(a=addResult, b=andResult, sel=f, out=calculatedResult);
+
+        // Negate if required 
+        // 
+        // (1) Wire the output into an internal representation for calculation zr
+        // (2) Send the output to the output bus
+        // (3) The 16th bit of the final number tells us
+        //     if the whole thing is negative or not in a two's compliment based
+        //     representation of an integer - so wire this into the ng output
+        ConditionalNegate16(in=calculatedResult, sel=no, out=finalOutput, out=out, out[15]=ng);
+        
+        // 16 way or to tell us if any of the outputs are non-zero. The negatable
+        // switch is set to true as we want this to return true if the result is
+        // 0 not if any of the outputs are non-zero
+        NegatableOr16Way(in=finalOutput, sel=true, out=zr);
 }
