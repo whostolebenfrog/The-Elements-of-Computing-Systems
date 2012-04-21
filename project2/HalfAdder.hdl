@@ -1,8 +1,3 @@
-// This file is part of the materials accompanying the book 
-// "The Elements of Computing Systems" by Nisan and Schocken, 
-// MIT Press. Book site: www.idc.ac.il/tecs
-// File name: projects/02/HalfAdder.hdl
-
 /**
  * Computes the sum of two bits.
  */
@@ -13,5 +8,6 @@ CHIP HalfAdder {
         carry;  // Left bit of a + b
 
     PARTS:
-    // Put your code here.
+       And(a=a, b=b, out=carry);
+       Xor(a=a, b=b, out=sum);
 }
